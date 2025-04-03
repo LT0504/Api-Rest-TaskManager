@@ -14,10 +14,11 @@ datasource db {
 }
 
 model user {
-  id       Int     @id @default(autoincrement())
-  name     String
-  email    String  @unique
-  password String
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  tasks     task[]   @relation("UserTasks")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -26,10 +27,10 @@ model task {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
-  status      String   @default("pending")  // Se mantiene como string sin enum
+  status      String   @default("pending")
   priority    String   
   dueDate     DateTime?
-  user        user     @relation(fields: [userId], references: [id])
+  user        user     @relation("UserTasks", fields: [userId], references: [id]) // Relación inversa
   userId      Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
